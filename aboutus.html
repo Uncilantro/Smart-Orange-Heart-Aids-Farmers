@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>关于我们 - 赣南脐橙直供</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <style>
+            /* 基础样式 */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: "Microsoft YaHei", sans-serif;
+                background: linear-gradient(135deg, #ffffff 0%, #fff5eb 50%, #ffe4cc 100%);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+
+            main {
+                flex: 1;
+                position: relative;
+                top: -20px;
+                /* 为固定导航栏留出空间 */
+            }
+            .content-container {
+            max-width: 100%;
+            height: 200px;
+            margin: 0 auto;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+            .header {
+            background: transparent;
+            padding: 15px 20px;
+            margin-top: 120px;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin: 0;
+            padding: 10px 0;
+            color: #ff6b01;
+            text-shadow: 1px 1px 2px rgba(255, 107, 1, 0.1);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin: 5px 0 0 0;
+            color: #ff8534;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+
+            /* 导航栏样式 */
+            .nav-container {
+                background-color: #ff6b01;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                position: fixed;
+                width: 100%;
+                top: 0;
+                z-index: 2000;
+                height: 60px;
+            }
+
+            .nav {
+                max-width: 1200px;
+                height: 100%;
+                margin: 0 auto;
+                padding: 0 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .nav-logo {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                color: white;
+                font-size: 1.2em;
+                font-weight: bold;
+                /* 加粗文字 */
+            }
+
+            .nav-logo img {
+                width: 40px;
+                /* 设置logo宽度 */
+                height: 40px;
+                /* 设置logo高度 */
+                object-fit: contain;
+                /* 保持图片比例 */
+            }
+
+            .nav-links {
+                display: flex;
+                gap: 20px;
+                height: 100%;
+                align-items: center;
+            }
+
+            .nav-links a {
+                color: white;
+                text-decoration: none;
+                font-size: 16px;
+                font-weight: 500;
+                padding: 8px 15px;
+                border-radius: 4px;
+                transition: all 0.3s ease;
+                position: relative;
+                display: flex;
+                align-items: center;
+                /* 垂直居中对齐 */
+            }
+
+            .nav-links a i {
+                margin-right: 5px;
+                /* 图标与文之间的间距 */
+                font-size: 1.2em;
+                /* 图标大小 */
+            }
+
+            .nav-links a::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 0;
+                height: 2px;
+                background-color: white;
+                transition: width 0.3s ease;
+            }
+
+            .nav-links a:hover::after,
+            .nav-links a.active::after {
+                width: 80%;
+            }
+
+            .user-section {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                cursor: pointer;
+                object-fit: cover;
+                border: 2px solid white;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                display: block;
+            }
+
+            .login-btn {
+                padding: 8px 25px;
+                background-color: white;
+                color: #ff6b01;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                transition: background-color 0.3s;
+                font-weight: 600;
+            }
+
+            .login-btn:hover {
+                background-color: #f5f5f5;
+                color: #ff6b01;
+            }
+
+            /* 广告样式 */
+            .top-banner {
+                background: #e65c00;
+                color: white;
+                height: 40px;
+                position: fixed;
+                top: 60px;
+                width: 100%;
+                z-index: 1999;
+            }
+
+            .banner-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 20px;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 0.9em;
+            }
+
+            .banner-content i {
+                margin-right: 8px;
+            }
+
+            .contact-info {
+                display: flex;
+                gap: 20px;
+            }
+
+            .contact-info a {
+                color: white;
+                text-decoration: none;
+                display: flex;
+                align-items: center;
+                transition: opacity 0.3s;
+            }
+
+            .contact-info a:hover {
+                opacity: 0.8;
+            }
+
+            /* 关于我们主要内容 */
+            .about-section {
+                max-width: 1200px;
+                margin: 60px auto;
+                padding: 0 20px;
+            }
+
+            .about-section h2 {
+                text-align: center;
+                color: #ff6b01;
+                font-size: 2em;
+                margin-bottom: 40px;
+                position: relative;
+            }
+
+            .about-section h2::after {
+                content: '';
+                display: block;
+                width: 60px;
+                height: 3px;
+                background: #ff6b01;
+                margin: 15px auto;
+            }
+
+            .about-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+                margin-bottom: 60px;
+            }
+
+            .about-card {
+                background: white;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s;
+                margin-bottom: 20px;
+            }
+
+            .about-card:hover {
+                transform: translateY(-10px);
+            }
+
+            .about-card img {
+                width: 100%;
+                height: 250px;
+                object-fit: cover;
+            }
+
+            .about-card-content {
+                padding: 30px;
+                background-color: #f9f9f9;
+            }
+
+            .about-card h3 {
+                color: #ff6b01;
+                margin-bottom: 15px;
+                font-size: 1.5em;
+            }
+
+            .about-card p {
+                color: #666;
+                line-height: 1.8;
+            }
+
+            /* 脐橙发展史样式 */
+            .history {
+                background: url('image/1e90-hwfpcxp2612260.jpg') no-repeat center center;
+                /* 背景图 */
+                background-size: cover;
+                /* 背景图覆盖 */
+                border-radius: 15px;
+                /* 圆角 */
+                padding: 40px;
+                /* 内边距 */
+                margin-bottom: 60px;
+                /* 底部间距 */
+                color: white;
+                /* 字体颜色 */
+                position: relative;
+                /* 使内容居中 */
+            }
+
+            .history h3 {
+                color: #ff6b01;
+                /* 标题颜色 */
+                font-size: 1.8em;
+                /* 标题字体大小 */
+                margin-bottom: 20px;
+                /* 底部间距 */
+                text-align: center;
+                /* 标题居中 */
+            }
+
+            .history-content {
+                color: #fff;
+                /* 内容字体颜色 */
+                line-height: 1.8;
+                /* 行高 */
+                font-size: 1.1em;
+                /* 字体大小 */
+                margin: 0 auto;
+                /* 居中对齐 */
+                max-width: 800px;
+                /* 最大宽度 */
+                text-align: justify;
+                /* 两端对齐 */
+                background: rgba(0, 0, 0, 0.5);
+                /* 半透明背景 */
+                padding: 20px;
+                /* 内边距 */
+                border-radius: 10px;
+                /* 圆角 */
+            }
+
+            /* 团队介绍样式 */
+            .team-grid {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 30px;
+                margin-bottom: 60px;
+            }
+
+            .team-member {
+                text-align: center;
+                background: white;
+                border-radius: 15px;
+                padding: 20px;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s;
+            }
+
+            .team-member:hover {
+                transform: translateY(-10px);
+            }
+
+            .team-member img {
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                margin-bottom: 15px;
+                object-fit: cover;
+            }
+
+            .team-member h3 {
+                color: #333;
+                margin-bottom: 5px;
+            }
+
+            .team-member p {
+                color: #666;
+                font-size: 0.9em;
+            }
+
+            /* 新闻动态样式 */
+            .news {
+                padding: 80px 0;
+                background: linear-gradient(135deg, #fff5eb 0%, #fff 100%);
+            }
+
+            .news h2 {
+                text-align: center;
+                color: #ff6b01;
+                font-size: 2.5em;
+                margin-bottom: 50px;
+            }
+
+            .news-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+                padding: 0 20px;
+            }
+
+            .news-card {
+                background: white;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s ease;
+            }
+
+            .news-card:hover {
+                transform: translateY(-10px);
+            }
+
+            .news-image {
+                position: relative;
+                height: 200px;
+            }
+
+            .news-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+            .news-date {
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                background: rgba(255, 107, 1, 0.9);
+                color: white;
+                padding: 5px 10px;
+                border-radius: 5px;
+                font-size: 0.9em;
+            }
+
+            .news-content {
+                padding: 20px;
+            }
+
+            .news-content h3 {
+                color: #333;
+                margin-bottom: 10px;
+                font-size: 1.2em;
+            }
+
+            .news-content p {
+                color: #666;
+                margin-bottom: 15px;
+                line-height: 1.6;
+            }
+
+            .read-more {
+                color: #ff6b01;
+                text-decoration: none;
+                font-weight: 600;
+                display: inline-block;
+                transition: transform 0.3s;
+            }
+
+            .read-more:hover {
+                transform: translateX(5px);
+            }
+
+            /* 响应式设计 */
+            @media (max-width: 768px) {
+                .about-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .team-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                .news-container {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            .footer {
+                background-color: #ff6b01;
+                /* 页脚背景色 */
+                color: white;
+                padding: 40px 0;
+                /* 内边距 */
+                text-align: center;
+                /* 文本居中 */
+            }
+
+            .footer-content {
+                max-width: 1200px;
+                margin: 0 auto;
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 40px;
+                padding: 0 20px;
+            }
+
+            .footer-section h3 {
+                margin-bottom: 15px;
+                font-size: 1.2em;
+            }
+
+            .footer-links {
+                list-style: none;
+                padding: 0;
+            }
+
+            .footer-links li {
+                margin-bottom: 10px;
+            }
+
+            .footer-links a {
+                color: rgba(255, 255, 255, 0.9);
+                text-decoration: none;
+            }
+
+            .footer-links a:hover {
+                color: white;
+                text-decoration: underline;
+            }
+
+            .footer-bottom {
+                margin-top: 30px;
+                font-size: 0.9em;
+                color: rgba(255, 255, 255, 0.8);
+            }
+
+            /* 社交链接容器样式 */
+            .social-links {
+                display: flex;
+                gap: 15px;
+                margin-top: 15px;
+            }
+
+            /* 社交图标链接样式 */
+            .social-links a {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                background: rgba(255, 255, 255, 0.1); /* 背景颜色 */
+                border-radius: 50%;
+                transition: all 0.3s ease;
+                text-decoration: none; /* 去除下划线 */
+            }
+
+            /* 社交图标悬停效果 */
+            .social-links a:hover {
+                background: rgba(255, 255, 255, 0.2); /* 悬停时的背景颜色 */
+                transform: translateY(-3px);
+                box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            }
+
+            /* 图标本身的样式 */
+            .social-links i {
+                font-size: 20px;
+                color: white; /* 图标颜色 */
+            }
+        </style>
+    </head>
+    <body>
+        <!-- 导航栏和顶部通知栏（从其他页面复用） -->
+        <div class="top-banner">
+            <div class="banner-content">
+                <div>
+                    <i class="fas fa-gift"></i>
+                    <span>新人专享优惠：首单满200减50！</span>
+                </div>
+                <div class="contact-info">
+                    <a href="tel:0797-XXXXXXXX"><i class="fas fa-phone"></i> 0797-XXXXXXXX</a>
+                    <a href="mailto:contact@gannan-orange.com"><i class="fas fa-envelope"></i>
+                        contact@gannan-orange.com</a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="nav-container">
+            <div class="nav">
+                <div class="nav-logo">
+                    <img src="image/脐橙.png" alt="">
+                    <span>赣南脐橙</span>
+                </div>
+                <div class="nav-links">
+                    <a href="index.html" class="nav-link"><i class="fas fa-home"></i> 首页</a>
+                    <a href="shop.html" class="nav-link"><i class="fas fa-shopping-basket"></i> 产品</a>
+                    <a href="aboutus.html" class="nav-link active"><i class="fas fa-info-circle"></i> 关于我们</a>
+                    <a href="relateus.html" class="nav-link"><i class="fas fa-phone-alt"></i> 联系我们</a>
+                </div>
+                <div class="user-section">
+                    <a href="login.html"><button class="login-btn" id="loginBtn">登录</button></a>
+                    <img src="image/未登录.png" alt="用户头像" class="user-avatar" style="display: block;">
+                </div>
+            </div>
+        </nav>
+
+        <main>
+            <!-- 关于我们英雄区域 -->
+            <div class="content-container">
+                <header class="header">
+                    <h1>关于赣南脐橙</h1>
+                    <p>传承百年果园，匠心种植，为您带来最优质的赣南脐橙</p>
+                </header>
+            </div>
+
+
+            <!-- 关于我们主要内容 -->
+            <section class="about-section">
+                <h2>我们的故事</h2>
+                <div class="about-grid">
+                    <div class="about-card" data-aos="fade-right">
+                        <img src="image/OIP-C (3).jpg" alt="历史传承">
+                        <div class="about-card-content">
+                            <h3>历史传承</h3>
+                            <p>赣南脐橙的种植历史可以追溯到上世纪初，经过几代果农的精心培育，形成了独特的种植技艺和品质</p>
+                        </div>
+                    </div>
+                    <div class="about-card" data-aos="fade-left">
+                        <img src="image/OIP-C (5).jpg" alt="品质保证">
+                        <div class="about-card-content">
+                            <h3>品质保证</h3>
+                            <p>我们严格把控每一个环节，从种植到采摘，从包装到运输，确保每一个脐橙都达到最高品质标准。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <h2>脐橙发展史</h2>
+                <div class="history">
+                    <h3>脐橙的起源</h3>
+                    <div class="history-content">
+                        <p>脐橙起源于中国南方，最早的脐橙品种在20世纪初被引入江西省赣南地区。由于独特的气候和土壤条件，赣南成为脐橙的理想种植地。</p>
+                    </div>
+                    <h3>发展历程</h3>
+                    <div class="history-content">
+                        <p>随着农业技术的进步，赣南脐橙的种植面积逐年扩大，逐渐形成了规模化的生产模式。如今，赣南脐橙已成为全国知名的优质水果。</p>
+                    </div>
+                    <h3>品牌建设</h3>
+                    <div class="history-content">
+                        <p>近年来，赣南脐橙通过品牌化建设，提升了市场竞争力，获得了多个国家和地区的认证，成为了消费者心目中的优质水果品牌。</p>
+                    </div>
+                </div>
+
+                <h2>我们的团队</h2>
+                <div class="team-grid">
+                    <div class="team-member" data-aos="fade-up">
+                        <img src="image/未登录.png" alt="团队成员1">
+                        <h3>张志远</h3>
+                        <p>果园主管</p>
+                    </div>
+                    <div class="team-member" data-aos="fade-up" data-aos-delay="100">
+                        <img src="image/未登录.png" alt="团队成员2">
+                        <h3>李明</h3>
+                        <p>质量总监</p>
+                    </div>
+                    <div class="team-member" data-aos="fade-up" data-aos-delay="200">
+                        <img src="image/未登录.png" alt="团队成员3">
+                        <h3>王芳</h3>
+                        <p>销售经理</p>
+                    </div>
+                    <div class="team-member" data-aos="fade-up" data-aos-delay="300">
+                        <img src="image/未登录.png" alt="团队成员4">
+                        <h3>陈晓</h3>
+                        <p>客服主管</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 新闻动态部分 -->
+            <section class="news">
+                <h2>新闻动态</h2>
+                <div class="news-container">
+                    <div class="news-card" data-aos="fade-up" data-aos-delay="100">
+                        <div class="news-image">
+                            <img src="image/OIP-C (11).jpg" alt="新闻图片">
+                            <div class="news-date">2024-01-15</div>
+                        </div>
+                        <div class="news-content">
+                            <h3>2024赣南脐橙丰收节盛大开幕</h3>
+                            <p>本届丰收节以"品味赣南·橙意盎然"为主题，展示赣南脐橙产业发展成果...</p>
+                            <a href="aboutus.html" class="read-more">阅读更多</a>
+                        </div>
+                    </div>
+                    <div class="news-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="news-image">
+                            <img src="image/下载.jpg" alt="新闻图片">
+                            <div class="news-date">2024-01-10</div>
+                        </div>
+                        <div class="news-content">
+                            <h3>赣南脐橙获国际金奖</h3>
+                            <p>在国际农产品品质评比中，赣南脐橙凭借其卓越品质获得金奖...</p>
+                            <a href="aboutus.html" class="read-more">阅读更多</a>
+                        </div>
+                    </div>
+                    <div class="news-card" data-aos="fade-up" data-aos-delay="300">
+                        <div class="news-image">
+                            <img src="image/下载 (1).jpg" alt="新闻图片">
+                            <div class="news-date">2024-01-05</div>
+                        </div>
+                        <div class="news-content">
+                            <h3>脐橙种植技术创新研讨会</h3>
+                            <p>来自全国各地的农业专家齐聚赣南，共同探讨脐橙种植技术创新...</p>
+                            <a href="aboutus.html" class="read-more">阅读更多</a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- 页脚（从其他页面复用） -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>关于我们</h3>
+                    <p>赣南脐橙直供平台致力于为消费者提供优质新鲜的赣南脐橙，打造产地直达餐桌的供应链。</p>
+                </div>
+                <div class="footer-section">
+                    <h3>快速链接</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="aboutus.html">关于我们</a></li>
+                        <li><a href="shop.html">产品</a></li>
+                        <li><a href="news.html">新闻动态</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>联系我们</h3>
+                    <p>地址：江西省赣州市章贡区</p>
+                    <p>电话：0797-XXXXXXXX</p>
+                    <p>邮箱：contact@gannan-orange.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>关注我们</h3>
+                    <p>关注我们的社交媒体，获取最新资讯</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-tiktok"></i></a>
+                        <a href="#"><i class="fas fa-comments"></i></a>
+                        <a href="#"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 赣南脐橙直供平台 版权所有</p>
+            </div>
+        </footer>
+
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script>
+            AOS.init({
+                duration: 1000,
+                once: false,
+                offset: 100
+            });
+        </script>
+    </body>
+</html>

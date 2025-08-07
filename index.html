@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赣南脐橙直供 - 来自家乡的甜蜜</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* 优化整体布局 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #fff5eb 50%, #ffe4cc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 让主要内容区域自动填充空间 */
+        main {
+            flex: 1;
+        }
+
+        /* 优化导航栏样式 */
+        .nav-container {
+            background-color: #ff6b01;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2000;
+            height: 60px;
+        }
+
+        .nav {
+            max-width: 1200px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 80%;
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            object-fit: cover;
+            border: 2px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: block;
+        }
+
+        .login-btn {
+            padding: 8px 25px;
+            background-color: white;
+            color: #ff6b01;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+
+        .login-btn:hover {
+            background-color: #f5f5f5;
+            color: #ff6b01;
+        }
+
+        /* 登录模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 30px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .close {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        /* 确保轮播图控件可见 */
+        .swiper-button-prev,
+        .swiper-button-next {
+            color: #fff;
+            text-shadow: 0 0 3px rgba(0,0,0,0.5);
+        }
+
+        .swiper-pagination-bullet {
+            background: #fff;
+            opacity: 0.8;
+        }
+
+        .swiper-pagination-bullet-active {
+            background: #ff6b01;
+        }
+
+        /* 修改头部样式 */
+        .header {
+            background: transparent;
+            padding: 15px 20px;
+            margin-top: 120px;
+            margin-bottom: 0;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin: 0;
+            padding: 10px 0;
+            color: #ff6b01;
+            text-shadow: 1px 1px 2px rgba(255, 107, 1, 0.1);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            margin: 5px 0 0 0;
+            color: #ff8534;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* 修改轮播图样式 */
+        .swiper {
+            width: 100%;
+            height: 600px;
+            margin-top: 20px;
+        }
+
+        .swiper-wrapper {
+            height: 100%;
+        }
+
+        .swiper-slide {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.9); /* 轻微调暗图片 */
+        }
+
+        /* 添加轮播图文字遮罩 */
+        .slide-content {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 40px;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+        }
+
+        .slide-content h2 {
+            font-size: 2em;
+            margin: 0 0 10px 0;
+        }
+
+        .slide-content p {
+            font-size: 1.1em;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        /* 优化介绍部分样式 */
+        .intro {
+            margin: 60px auto;
+            padding: 0 40px;
+            max-width: 1200px;
+        }
+
+        .intro h2 {
+            font-size: 2.5em;
+            color: #ff6b01;
+            margin-bottom: 30px;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .intro h2::before,
+        .intro h2::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #ff6b01, transparent);
+            margin: 15px auto;
+        }
+
+        .intro-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(255, 107, 1, 0.1);
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .intro-text {
+            flex: 1;
+            line-height: 1.8;
+            font-size: 1.1em;
+        }
+
+        .intro-text p {
+            margin-bottom: 25px;
+            color: #444;
+        }
+
+        .intro-text p:last-child {
+            background: #fff8f3;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #ff6b01;
+        }
+
+        .intro-text br {
+            margin-bottom: 10px;
+        }
+
+        .intro-text p:last-child br + span {
+            color: #ff6b01;
+            font-weight: 600;
+            margin-left: 5px;
+        }
+
+        .intro-image {
+            flex: 1;
+            position: relative;
+        }
+
+        .intro-image::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            bottom: -10px;
+            left: -10px;
+            border: 2px solid #ff6b01;
+            border-radius: 15px;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .intro-image img {
+            position: relative;
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .intro-image img:hover {
+            transform: scale(1.02) rotate(1deg);
+        }
+
+        /* 添加内容容器最大宽度限制 */
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 页脚样式 */
+        .footer {
+            margin-top: auto;
+            background-color: #ff6b01;
+            color: white;
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            margin-top: 10px;
+        }
+
+        .footer-section p,
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            line-height: 1.8;
+            font-size: 0.95em;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .social-links i {
+            font-size: 20px;
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 修改动画相关样式 */
+        [data-aos="slide-right"] {
+            transform: translateX(-100px);
+            opacity: 0;
+            transition: transform 1s, opacity 1s;
+        }
+
+        [data-aos="slide-right"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        [data-aos="slide-left"] {
+            transform: translateX(100px);
+            opacity: 0;
+            transition: transform 1s, opacity 1s;
+        }
+
+        [data-aos="slide-left"].aos-animate {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        /* 优化过渡效果 */
+        .intro-content {
+            overflow: hidden;  /* 防止滑动时内容溢出 */
+        }
+
+        .intro-text, .intro-image {
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* 优化社交图标样式 */
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+        }
+
+        .social-links i {
+            font-size: 20px;
+            color: white;
+        }
+
+        /* 优化页脚部分的过渡效果 */
+        .footer-section {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 产品展示样式 */
+        .products {
+            max-width: 1200px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .products h2 {
+            text-align: center;
+            color: #ff6b01;
+            font-size: 2.5em;
+            margin-bottom: 40px;
+        }
+
+        .product-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-info h3 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            display: block;
+            color: #ff6b01;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .buy-btn {
+            background: #ff6b01;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .buy-btn:hover {
+            background: #e65c00;
+        }
+
+        /* 品质保证样式 */
+        .features {
+            background: #fff8f3;
+            padding: 80px 0;
+            margin-top: 80px;
+        }
+
+        .features h2 {
+            text-align: center;
+            color: #ff6b01;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+        }
+
+        .feature-cards {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            text-align: center;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .feature-card i {
+            font-size: 2.5em;
+            color: #ff6b01;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        /* 顶部知栏样式 */
+        .top-banner {
+            background: #e65c00;
+            color: white;
+            height: 40px;
+            position: fixed;
+            top: 60px;
+            width: 100%;
+            z-index: 1999;
+        }
+
+        .banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.9em;
+        }
+
+        .banner-content i {
+            margin-right: 8px;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 20px;
+        }
+
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: opacity 0.3s;
+        }
+
+        .contact-info a:hover {
+            opacity: 0.8;
+        }
+
+        /* 添加导航栏logo */
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .nav-logo img {
+            width: 40px;  /* 设置logo宽度 */
+            height: 40px; /* 设置logo高度 */
+            object-fit: contain; /* 保持图片比例 */
+        }
+
+        .nav-logo span {
+            font-size: 1.2em;
+        }
+
+        /* 新闻动态样式 */
+        .news {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #fff5eb 0%, #fff 100%);
+        }
+
+        .news h2 {
+            text-align: center;
+            color: #ff6b01;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+        }
+
+        .news-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .news-image {
+            position: relative;
+            height: 200px;
+        }
+
+        .news-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .news-date {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: rgba(255, 107, 1, 0.9);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        .news-content {
+            padding: 20px;
+        }
+
+        .news-content h3 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.2em;
+        }
+
+        .news-content p {
+            color: #666;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .read-more {
+            color: #ff6b01;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .read-more:hover {
+            transform: translateX(5px);
+        }
+
+        /* 用户评价样式 */
+        .testimonials {
+            padding: 80px 0;
+            background: #fff;
+        }
+
+        .testimonials h2 {
+            text-align: center;
+            color: #ff6b01;
+            font-size: 2.5em;
+            margin-bottom: 50px;
+        }
+
+        .testimonials-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin: 10px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .user-info img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .stars {
+            color: #ffd700;
+            margin-top: 5px;
+        }
+
+        .testimonial-text {
+            color: #666;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        /* 修改导航链接部分 */
+        .nav-links .nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links .nav-link:hover::after,
+        .nav-links .nav-link.active::after {
+            width: 80%;
+        }
+
+        .nav-links .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-banner">
+        <div class="banner-content">
+            <div>
+                <i class="fas fa-gift"></i>
+                <span>新人专享优惠：首单满200减50！</span>
+            </div>
+            <div class="contact-info">
+                <a href="tel:0797-XXXXXXXX"><i class="fas fa-phone"></i> 0797-XXXXXXXX</a>
+                <a href="mailto:contact@gannan-orange.com"><i class="fas fa-envelope"></i> contact@gannan-orange.com</a>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-container">
+        <div class="nav">
+            <div class="nav-logo">
+                <img src="image/脐橙.png" alt="">
+                <span>赣南脐橙</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active"><i class="fas fa-home"></i> 首页</a>
+                <a href="shop.html" class="nav-link"><i class="fas fa-shopping-basket"></i> 产品</a>
+                <a href="aboutus.html" class="nav-link"><i class="fas fa-info-circle"></i> 关于我们</a>
+                <a href="relateus.html" class="nav-link"><i class="fas fa-phone-alt"></i> 联系我们</a>
+            </div>
+            <div class="user-section">
+                <a href="login.html"><button class="login-btn" id="loginBtn">登录</button></a>
+                <img src="image/未登录.png" alt="用户头像" class="user-avatar" style="display: block;">
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="content-container">
+            <header class="header">
+                <h1>赣南脐橙直供平台</h1>
+                <p>来自江西赣南的优质脐橙，产地直达餐桌</p>
+            </header>
+        </div>
+
+        <div class="swiper">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="image/1e90-hwfpcxp2612260.jpg" alt="赣南脐橙园">
+                    <div class="slide-content">
+                        <h2>赣南脐橙，品质保证</h2>
+                        <p>源自江西赣南山区，天然生态种植</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="image/OIP-C (6).jpg" alt="新鲜脐橙">
+                    <div class="slide-content">
+                        <h2>新鲜采摘，产地直供</h2>
+                        <p>保证果品新鲜度，从园区直达您的餐桌</p>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <img src="image/OIP-C (10).jpg" alt="脐橙采摘">
+                    <div class="slide-content">
+                        <h2>严格把关，品质保证</h2>
+                        <p>专业果农精心培育，严格品控标准</p>
+                    </div>
+                </div>
+            </div>
+            <div class="swiper-pagination"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+        </div>
+
+        <section class="intro">
+            <h2 data-aos="fade-up">赣南脐橙介绍</h2>
+            <div class="intro-content">
+                <div class="intro-text" data-aos="slide-right" data-aos-duration="1200" data-aos-easing="ease-out-cubic">
+                    <p>赣南脐橙是江西省赣南地区特有的优质水果，具有国家地理标志保护。其果实圆润饱满，果皮橙红光亮，肉质细嫩多汁，甜酸适中，营养丰富。</p>
+                    <p>得益于赣南独特的气候条件和土壤环境，这里出产的脐橙口感极佳，富含维生素C、胡萝卜素等多种营养物质。每一颗脐橙都是严格把关，从种植到采摘都遵循绿色有机标准。</p>
+                    <p>我们承诺：
+                        <br><span>- 产地直供，确保新鲜</span>
+                        <br><span>- 统一标准，品质保证</span>
+                        <br><span>- 快速发货，冷链配送</span>
+                        <br><span>- 售后无忧，满意为止</span>
+                    </p>
+                </div>
+                <div class="intro-image" data-aos="slide-left" data-aos-duration="1200" data-aos-easing="ease-out-cubic">
+                    <img src="image/OIP-C (4).jpg" alt="赣南脐橙特写" 
+                        loading="lazy" width="600" height="400">
+                </div>
+            </div>
+        </section>
+
+        <section class="products">
+            <h2 data-aos="fade-up">产品展示</h2>
+            <div class="product-cards">
+                <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-image">
+                        <img src="image/OIP-C (8).jpg" alt="精品脐橙">
+                    </div>
+                    <div class="product-info">
+                        <h3>精品脐橙</h3>
+                        <p>严选优质果品，果径80-85mm</p>
+                        <span class="price">¥168.00/箱</span>
+                        <a href="shop.html" class="buy-btn">立即购买</a>
+                    </div>
+                </div>
+                <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="product-image">
+                        <img src="image/OIP-C (9).jpg" alt="特级脐橙">
+                    </div>
+                    <div class="product-info">
+                        <h3>特级脐橙</h3>
+                        <p>果型饱满，果径85-90mm</p>
+                        <span class="price">¥198.00/箱</span>
+                        <button class="buy-btn">立即购买</button>
+                    </div>
+                </div>
+                <div class="product-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="product-image">
+                        <img src="image/OIP-C (7).jpg" alt="礼盒装">
+                    </div>
+                    <div class="product-info">
+                        <h3>精品礼盒</h3>
+                        <p>高端礼盒包装，送礼首选</p>
+                        <span class="price">¥288.00/箱</span>
+                        <button class="buy-btn">立即购买</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features">
+            <h2 data-aos="fade-up">品质保证</h2>
+            <div class="feature-cards">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <i class="fas fa-certificate"></i>
+                    <h3>国家认证</h3>
+                    <p>国家地理标志保护产品</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <i class="fas fa-truck"></i>
+                    <h3>全程冷链</h3>
+                    <p>专业冷链配送，保证新鲜</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <i class="fas fa-medal"></i>
+                    <h3>品质保证</h3>
+                    <p>严格质检，保证品质</p>
+                </div>
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <i class="fas fa-undo"></i>
+                    <h3>无忧退换</h3>
+                    <p>7天无理由退换货</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="news">
+            <h2 data-aos="fade-up">新闻动态</h2>
+            <div class="news-container">
+                <div class="news-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="news-image">
+                        <img src="image/OIP-C (11).jpg" alt="新闻图片">
+                        <div class="news-date">2024-01-15</div>
+                    </div>
+                    <div class="news-content">
+                        <h3>2024赣南脐橙丰收节盛大开幕</h3>
+                        <p>本届丰收节以"品味赣南·橙意盎然"为主题，展示赣南脐橙产业发展成果...</p>
+                        <a href="aboutus.html" class="read-more">阅读更多</a>
+                    </div>
+                </div>
+                <div class="news-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="news-image">
+                        <img src="image/下载.jpg" alt="新闻图片">
+                        <div class="news-date">2024-01-10</div>
+                    </div>
+                    <div class="news-content">
+                        <h3>赣南脐橙获国际金奖</h3>
+                        <p>在国际农产品品质评比中，赣南脐橙凭借其卓越品质获得金奖...</p>
+                        <a href="aboutus.html" class="read-more">阅读更多</a>
+                    </div>
+                </div>
+                <div class="news-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="news-image">
+                        <img src="image/下载 (1).jpg" alt="新闻图片">
+                        <div class="news-date">2024-01-05</div>
+                    </div>
+                    <div class="news-content">
+                        <h3>脐橙种植技术创新研讨会</h3>
+                        <p>来自全国各地的农业专家齐聚赣南，共同探讨脐橙种植技术创新...</p>
+                        <a href="aboutus.html" class="read-more">阅读更多</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="testimonials">
+            <h2 data-aos="fade-up">用户评价</h2>
+            <div class="testimonials-container">
+                <div class="swiper testimonials-swiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide">
+                            <div class="testimonial-card">
+                                <div class="user-info">
+                                    <img src="image/未登录.png" alt="用户头像">
+                                    <div>
+                                        <h4>李先生</h4>
+                                        <div class="stars">★★★★★</div>
+                                    </div>
+                                </div>
+                                <p class="testimonial-text">"脐橙非常新鲜，汁水充足，口感特别好，全家人都很喜欢，以后还会继续购买！"</p>
+                            </div>
+                        </div>
+                        <!-- 更多评价... -->
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>赣南脐橙直供平台致力于为消费者提供优质新鲜的赣南脐橙，打造产地直达餐桌的供应链。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="#home">首页</a></li>
+                    <li><a href="#products">产品展示</a></li>
+                    <li><a href="#about">关于我们</a></li>
+                    <li><a href="#contact">联系方式</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p>地址：江西省赣州市章贡区</p>
+                <p>电话：0797-XXXXXXXX</p>
+                <p>邮箱：contact@gannan-orange.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>关注我们</h3>
+                <p>关注我们的社交媒体，获取最新资讯</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fas fa-comments"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 赣南脐橙直供平台 版权所有</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            new Swiper('.swiper', {
+                loop: true,
+                autoplay: {
+                    delay: 3000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                effect: 'fade',
+                fadeEffect: {
+                    crossFade: true
+                },
+            });
+        });
+
+        // 登录功能
+        const loginBtn = document.getElementById('loginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeBtn = document.querySelector('.close');
+        const loginForm = document.getElementById('loginForm');
+        const userAvatar = document.querySelector('.user-avatar');
+
+        loginBtn.onclick = function() {
+            loginModal.style.display = "block";
+        }
+
+        closeBtn.onclick = function() {
+            loginModal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = "none";
+            }
+        }
+
+        loginForm.onsubmit = function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // 登录成功后切换显示
+            loginBtn.style.display = "none";
+            loginModal.style.display = "none";
+
+            // 可以在这里更换登录后的头像
+            userAvatar.src = "image/已登录.png";  // 如果有登录后的头像图片
+
+            // 显示欢迎消息
+            alert(`欢迎回来，${username}`);
+        }
+    </script>
+
+    <script>
+        AOS.init({
+            duration: 1200,          // 动画持续时间
+            once: false,             // 改为 false，这样每次滚动都会触发动画
+            offset: 100,             // 触发动画的位置
+            easing: 'ease-out-cubic' // 使用平滑的缓动函数
+        });
+    </script>
+
+    <script>
+        // 初始化评价轮播
+        new Swiper('.testimonials-swiper', {
+            slidesPerView: 1,
+            spaceBetween: 30,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 2,
+                },
+                1024: {
+                    slidesPerView: 3,
+                }
+            }
+        });
+    </script>
+
+    <script>
+        // 添加导航选中效果
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            // 点击导航链接时添加选中效果
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // 移除所有链接的 active 类
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    // 给当前点击的链接添加 active 类
+                    this.classList.add('active');
+                });
+            });
+
+            // 根据滚动位置更新导航选中状态
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section');
+                let current = '';
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    if (pageYOffset >= (sectionTop - sectionHeight/3)) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if(link.getAttribute('href').slice(1) === current) {
+                        link.classList.add('active');
+                    }
+                });
+
+                // 特殊处理首页
+                if (pageYOffset < 100) {
+                    navLinks.forEach(link => link.classList.remove('active'));
+                    document.querySelector('a[href="#home"]').classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 赣南脐橙直供</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #fff5eb 50%, #ffe4cc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 导航栏样式 */
+        .nav-container {
+            background-color: #ff6b01;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2000;
+            height: 60px;
+        }
+
+        .nav {
+            max-width: 1200px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .nav-logo img {
+            width: 40px; /* 调整logo大小 */
+            height: 40px; /* 调整logo大小 */
+            object-fit: contain; /* 保持比例 */
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none; /* 去除下划线 */
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-avatar {
+            width: 40px; /* 调整用户头像大小 */
+            height: 40px; /* 调整用户头像大小 */
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .login-btn {
+            padding: 8px 25px;
+            background-color: white;
+            color: #ff6b01;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+
+        .login-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            margin: 80px auto; /* 为导航栏留出空间 */
+        }
+
+        .login-container h2 {
+            margin-bottom: 20px;
+            color: #ff6b01;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background: #ff6b01;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .form-group button:hover {
+            background: #e65c00;
+        }
+
+        .avatar-selection {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .avatar-selection img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+        .avatar-selection img:hover {
+            border: 2px solid #ff6b01;
+        }
+
+        .selected {
+            border: 2px solid #ff6b01;
+        }
+
+        /* 优化页脚部分的过渡效果 */
+        .footer-section {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section:hover {
+            transform: translateY(-5px);
+        }
+        .footer {
+            background-color: #ff6b01;
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        .social-links i {
+            font-size: 20px;
+            color: white;
+            margin-right: 10px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="nav-container">
+        <div class="nav">
+            <div class="nav-logo">
+                <img src="image/脐橙.png" alt="">
+                <span>赣南脐橙</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> 首页</a>
+                <a href="shop.html" class="nav-link"><i class="fas fa-shopping-basket"></i> 产品</a>
+                <a href="aboutus.html" class="nav-link"><i class="fas fa-info-circle"></i> 关于我们</a>
+                <a href="relateus.html" class="nav-link"><i class="fas fa-phone-alt"></i> 联系我们</a>
+            </div>
+            <div class="user-section">
+                <button class="login-btn" id="loginBtn">登录</button>
+                <img src="image/未登录.png" alt="用户头像" class="user-avatar" style="display: block;">
+            </div>
+        </div>
+    </nav>
+
+    <div class="top-banner">
+        <div class="banner-content">
+            <div>
+                <i class="fas fa-gift"></i>
+                <span>新人专享优惠：首单满200减50！</span>
+            </div>
+            <div class="contact-info">
+                <a href="tel:0797-XXXXXXXX"><i class="fas fa-phone"></i> 0797-XXXXXXXX</a>
+                <a href="mailto:contact@gannan-orange.com"><i class="fas fa-envelope"></i> contact@gannan-orange.com</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <h2>登录</h2>
+        <div class="avatar-selection">
+            <img src="image/OIP-C (2).jpg" alt="头像1" class="avatar" onclick="selectAvatar(this)">
+            <img src="image/OIP-C (6).jpg" alt="头像2" class="avatar" onclick="selectAvatar(this)">
+            <img src="image/OIP-C (10).jpg" alt="头像3" class="avatar" onclick="selectAvatar(this)">
+        </div>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="username">用户名</label>
+                <input type="text" id="username" placeholder="请输入用户名" required>
+            </div>
+            <div class="form-group">
+                <label for="password">密码</label>
+                <input type="password" id="password" placeholder="请输入密码" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">登录</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        let selectedAvatar = null;
+
+        function selectAvatar(img) {
+            // 移除之前选中的头像样式
+            const avatars = document.querySelectorAll('.avatar');
+            avatars.forEach(avatar => avatar.classList.remove('selected'));
+
+            // 添加选中样式
+            img.classList.add('selected');
+            selectedAvatar = img.src; // 保存选中的头像路径
+        }
+
+        document.getElementById('loginForm').onsubmit = function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // 登录验证
+            if (username === 'admin' && password === 'admin') {
+                // 登录成功后切换显示
+                document.querySelector('.login-btn').style.display = "none";
+                const userAvatar = document.querySelector('.user-avatar');
+                userAvatar.src = selectedAvatar || "image/已登录.png"; // 使用选择的头像或默认头像
+                
+                // 存储头像到 localStorage
+                localStorage.setItem('userAvatar', userAvatar.src);
+
+                alert(`欢迎回来，${username}！`);
+            } else {
+                alert('用户名或密码错误！');
+            }
+        }
+    </script>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>赣南脐橙直供平台致力于为消费者提供优质新鲜的赣南脐橙，打造产地直达餐桌的供应链。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="aboutus.html">关于我们</a></li>
+                    <li><a href="shop.html">产品</a></li>
+                    <li><a href="relateus.html">联系我们</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p>地址：江西省赣州市章贡区</p>
+                <p>电话：0797-XXXXXXXX</p>
+                <p>邮箱：contact@gannan-orange.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>关注我们</h3>
+                <p>关注我们的社交媒体，获取最新资讯</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fab fa-weixin"></i></a> <!-- 微信图标 -->
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 赣南脐橙直供平台 版权所有</p>
+        </div>
+    </footer>
+</body>
+</html>

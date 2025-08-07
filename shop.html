@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>赣南脐橙商城 - 产品列表</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        /* 基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #ffffff 0%, #fff5eb 50%, #ffe4cc 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        .footer {
+            flex-shrink: 0;
+        }
+
+        /* 导航栏样式复用 */
+        .nav-container {
+            background-color: #ff6b01;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 2000;
+            height: 60px;
+        }
+
+        /* 其他导航栏样式... */
+
+        /* 商品筛选区 */
+        .filter-section {
+            margin-top: 100px;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .filter-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .filter-options {
+            display: flex;
+            gap: 20px;
+        }
+
+        .filter-option {
+            padding: 8px 15px;
+            border: 1px solid #ff6b01;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .filter-option:hover,
+        .filter-option.active {
+            background: #ff6b01;
+            color: white;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-box input {
+            padding: 8px 15px;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            width: 200px;
+        }
+
+        .search-box button {
+            padding: 8px 20px;
+            background: #ff6b01;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        /* 商品展示区 */
+        .products-grid {
+            max-width: 1200px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            padding: 0 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff6b01;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.8em;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .product-desc {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 15px;
+        }
+
+        .product-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            color: #ff6b01;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .product-rating {
+            color: #ffd700;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: #ff6b01;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: #ff6b01;
+            border: 1px solid #ff6b01;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+            transform: translateY(-2px);
+        }
+
+        /* 分页控件 */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;  /* 确保水平对齐 */
+            gap: 10px;
+            margin: 40px 0;
+        }
+
+        #pageNumbers {
+            display: flex;  /* 添加这行确保横向排列 */
+            gap: 10px;     /* 页码之间的间距 */
+        }
+
+        .page-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ff6b01;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .page-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+        }
+
+        .page-item:hover:not(.disabled),
+        .page-item.active {
+            background: #ff6b01;
+            color: white;
+        }
+
+        .page-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 添加导航栏和页脚相关样式 */
+        .nav {
+            max-width: 1200px;
+            height: 100%;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .nav-logo img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+        }
+
+        /* 顶部通知栏样式 */
+        .top-banner {
+            background: #e65c00;
+            color: white;
+            height: 40px;
+            position: fixed;
+            top: 60px;
+            width: 100%;
+            z-index: 1999;
+        }
+
+        .banner-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.9em;
+        }
+
+        /* 页脚样式 */
+        .footer {
+            margin-top: auto;
+            background-color: #ff6b01;
+            color: white;
+            padding: 40px 0;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            padding: 0 20px;
+        }
+
+        /* 其他页相关式... */
+
+        /* 导航链接样式 */
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background-color: white;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            width: 80%;
+        }
+
+        .nav-links a.active {
+            background: rgba(255, 255, 255, 0.1);
+            font-weight: 600;
+        }
+
+        /* 页脚样式补充 */
+        .footer-section h3 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .footer-section h3::after {
+            content: '';
+            display: block;
+            width: 40px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.5);
+            margin-top: 10px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9em;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* 联系信息样式 */
+        .contact-info a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* 用户部分样式 */
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .login-btn {
+            padding: 8px 25px;
+            background-color: white;
+            color: #ff6b01;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: 600;
+        }
+
+        .login-btn:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* 修改头像样式 */
+        .user-avatar {
+            width: 35px;  /* 调整头像大小 */
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            object-fit: cover;
+            border: 2px solid white;
+        }
+
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.2em;
+        }
+
+        .product-count {
+            margin: 20px 0;
+            color: #666;
+            text-align: right;
+        }
+
+        /* 排序按钮容器样式 */
+        .sort-options {
+            display: flex;
+            gap: 10px;
+            margin: 0 20px;
+        }
+
+        /* 排序按钮样式 */
+        .sort-btn {
+            padding: 8px 15px;
+            border: 1px solid #ff6b01;
+            border-radius: 20px;
+            background: white;
+            color: #ff6b01;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* 排序按钮悬停效果 */
+        .sort-btn:hover {
+            background: #fff1e6;
+            transform: translateY(-2px);
+            box-shadow: 0 2px 8px rgba(255, 107, 1, 0.2);
+        }
+
+        /* 激活状态样式 */
+        .sort-btn.active {
+            background: #ff6b01;
+            color: white;
+            border-color: #ff6b01;
+        }
+
+        /* 添加图标样式 */
+        .sort-btn i {
+            font-size: 0.8em;
+            transition: transform 0.3s ease;
+        }
+
+        .sort-btn:hover i {
+            transform: translateY(-1px);
+        }
+
+        /* 调整筛选区布局 */
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .sort-options {
+                justify-content: center;
+                margin: 10px 0;
+            }
+        }
+
+        /* 社交链接容器样式 */
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        /* 社交图标链接样式 */
+        .social-links a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        /* 社交图标悬停效果 */
+        .social-links a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 图标本身的样式 */
+        .social-links i {
+            font-size: 20px;
+            color: white;
+        }
+
+        /* 页脚部分样式补充 */
+        .footer-section {
+            transition: transform 0.3s ease;
+        }
+
+        .footer-section:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 页脚链接样式 */
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* 移除链接的默认样式 */
+        a {
+            text-decoration: none;  /* 移除下划线 */
+            color: inherit;  /* 继承父元素的颜色 */
+        }
+
+        /* 确保页脚链接式不受影响 */
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            text-decoration: underline;
+        }
+
+        /* 确保导航链接样式不受影响 */
+        .nav-links a {
+            color: white;
+        }
+
+        .page-item.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-item:not(.disabled):hover {
+            background: #ff8534;
+            color: white;
+        }
+
+        /* 购物车按钮样式 */
+        .cart-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background-color: #ff6b01;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: background-color 0.3s;
+            z-index: 1000;
+        }
+
+        .cart-button:hover {
+            background-color: #e65c00;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部通知栏 -->
+    <div class="top-banner">
+        <div class="banner-content">
+            <div>
+                <i class="fas fa-gift"></i>
+                <span>新人专享优惠：首单满200减50！</span>
+            </div>
+            <div class="contact-info">
+                <a href="tel:0797-XXXXXXXX"><i class="fas fa-phone"></i> 0797-XXXXXXXX</a>
+                <a href="mailto:contact@gannan-orange.com"><i class="fas fa-envelope"></i> contact@gannan-orange.com</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 导航栏 -->
+    <nav class="nav-container">
+        <div class="nav">
+            <div class="nav-logo">
+                <img src="image/脐橙.png" alt="">
+                <span>赣南脐橙</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link"><i class="fas fa-home"></i> 首页</a>
+                <a href="shop.html" class="nav-link active"><i class="fas fa-shopping-basket"></i> 产品</a>
+                <a href="aboutus.html" class="nav-link"><i class="fas fa-info-circle"></i> 关于我们</a>
+                <a href="#contact" class="nav-link"><i class="fas fa-phone-alt"></i> 联系我们</a>
+            </div>
+            <div class="user-section">
+                <a href="login.html"><button class="login-btn" id="loginBtn">登录</button></a>
+                <img src="image/未登录.png" alt="用户头像" class="user-avatar" style="display: block;">
+            </div>
+        </div>
+    </nav>
+
+    <!-- 商品筛选区 -->
+    <section class="filter-section">
+        <div class="filter-container">
+            <div class="filter-options">
+                <div class="filter-option active" data-category="all">全部商品</div>
+                <div class="filter-option" data-category="精品脐橙">精品脐橙</div>
+                <div class="filter-option" data-category="礼盒装">礼盒装</div>
+                <div class="filter-option" data-category="特惠装">特惠装</div>
+            </div>
+            <div class="sort-options">
+                <button class="sort-btn active" data-sort="default">
+                    <i class="fas fa-sort"></i> 默认排序
+                </button>
+                <button class="sort-btn" data-sort="price-asc">
+                    <i class="fas fa-sort-amount-up-alt"></i> 价格 ↑
+                </button>
+                <button class="sort-btn" data-sort="price-desc">
+                    <i class="fas fa-sort-amount-down-alt"></i> 价格 ↓
+                </button>
+            </div>
+            <div class="search-box">
+                <input type="text" placeholder="搜索商品..." id="searchInput">
+                <button id="searchBtn"><i class="fas fa-search"></i> 搜索</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 商品展示区 -->
+    <div class="products-grid">
+        <!-- 商品将由 JavaScript 动态生成 -->
+    </div>
+
+    <!-- 分页控件 -->
+    <div class="pagination">
+        <div class="page-item" id="prevPage"><i class="fas fa-chevron-left"></i></div>
+        <div id="pageNumbers">
+            <!-- 页码将由 JavaScript 动态生成 -->
+        </div>
+        <div class="page-item" id="nextPage"><i class="fas fa-chevron-right"></i></div>
+    </div>
+
+    <!-- 页脚 -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>关于我们</h3>
+                <p>赣南脐橙直供平台致力于为消费者提供优质新鲜的赣南脐橙，打造产地直达餐桌的供应链。</p>
+            </div>
+            <div class="footer-section">
+                <h3>快速链接</h3>
+                <ul class="footer-links">
+                    <li><a href="index.html">首页</a></li>
+                    <li><a href="shop.html">产品展示</a></li>
+                    <li><a href="aboutus.html">关于我们</a></li>
+                    <li><a href="#contact">联系方式</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>联系我们</h3>
+                <p>地址：江西省赣州市章贡区</p>
+                <p>电话：0797-XXXXXXXX</p>
+                <p>邮箱：contact@gannan-orange.com</p>
+            </div>
+            <div class="footer-section">
+                <h3>关注我们</h3>
+                <p>关注我们的社交媒体，获取最新资讯</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-tiktok"></i></a>
+                    <a href="#"><i class="fas fa-comments"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 赣南脐橙直供平台 版权所有</p>
+        </div>
+    </footer>
+
+    <!-- 在页面底部添加购物车按钮 -->
+    <div class="cart-button" onclick="window.location.href='#'">
+        <i class="fas fa-shopping-cart"></i>
+    </div>
+
+    <script>
+        // 商品数据
+        const products = [
+            {
+                id: 1,
+                name: "赣南精品脐橙",
+                price: 168,
+                category: "精品脐橙",
+                desc: "果径80-85mm，果形饱满，汁多味甜",
+                image: "image/OIP-C (8).jpg",
+                badge: "热销"
+            },
+            {
+                id: 2,
+                name: "赣南特级脐橙",
+                price: 198,
+                category: "精品脐橙",
+                desc: "果径85-90mm，果肉细嫩，口感极佳",
+                image: "image/OIP-C (9).jpg",
+                badge: "新品"
+            },
+            {
+                id: 3,
+                name: "高端礼盒装",
+                price: 288,
+                category: "礼盒装",
+                desc: "精美包装，送礼佳品，果径85-90mm",
+                image: "image/OIP-C (7).jpg",
+                badge: "精选"
+            },
+            {
+                id: 4,
+                name: "家庭实惠装",
+                price: 138,
+                category: "特惠装",
+                desc: "10斤装，果径75-80mm，性价比之选",
+                image: "image/OIP-C (4).jpg",
+                badge: "超值"
+            },
+            {
+                id: 5,
+                name: "小果甜心装",
+                price: 118,
+                category: "特惠装",
+                desc: "果径70-75mm，口感极佳，适合送长辈",
+                image: "image/OIP-C (6).jpg",
+                badge: "特惠"
+            },
+            {
+                id: 6,
+                name: "尊享精品装",
+                price: 328,
+                category: "精品脐橙",
+                desc: "果径90-95mm，特级果品，送礼首选",
+                image: "image/OIP-C (10).jpg",
+                badge: "尊享"
+            },
+            {
+                id: 7,
+                name: "商务礼盒装",
+                price: 398,
+                category: "礼盒装",
+                desc: "高端商务礼盒，内含12个精选果品",
+                image: "image/OIP-C (11).jpg",
+                badge: "商务"
+            },
+            {
+                id: 8,
+                name: "年货礼盒",
+                price: 268,
+                category: "礼盒装",
+                desc: "新年特制礼盒，喜庆大气",
+                image: "image/OIP-C (8).jpg",
+                badge: "年货"
+            },
+            {
+                id: 9,
+                name: "双拼礼盒",
+                price: 298,
+                category: "礼盒装",
+                desc: "精品脐橙搭配其他水果，营养美味",
+                image: "image/OIP-C (9).jpg",
+                badge: "推"
+            },
+            {
+                id: 10,
+                name: "团购特惠装",
+                price: 108,
+                category: "特惠装",
+                desc: "团购专享价，多买更优惠",
+                image: "image/OIP-C (7).jpg",
+                badge: "团购"
+            },
+            {
+                id: 11,
+                name: "有机认证脐橙",
+                price: 258,
+                category: "精品脐橙",
+                desc: "有机认证，无农药残留",
+                image: "image/OIP-C (4).jpg",
+                badge: "有机"
+            },
+            {
+                id: 12,
+                name: "儿童装脐橙",
+                price: 148,
+                category: "特惠装",
+                desc: "专为儿童设计，果径适中，酸甜可口",
+                image: "image/OIP-C (6).jpg",
+                badge: "儿童"
+            }
+        ];
+
+        // 初始化变量
+        let currentCategory = 'all';
+        let currentSort = 'default';
+        let searchTerm = '';
+
+        // 分页相关变量
+        let currentPage = 1;
+        const itemsPerPage = 8; // 每页显示8个商品
+
+        // 分页函数
+        function paginate(items, page, perPage) {
+            const start = (page - 1) * perPage;
+            const end = start + perPage;
+            return items.slice(start, end);
+        }
+
+        // 更新分页显示函数
+        function updatePagination(filteredProducts) {
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            const pageNumbers = document.getElementById('pageNumbers');
+            pageNumbers.innerHTML = '';
+
+            // 只有当有多于一页时才显示分页
+            if (totalPages > 1) {
+                // 始终显示第一页
+                addPageNumber(1);
+
+                if (totalPages <= 5) {
+                    // 如果总页数小于等于5，显示所有页码
+                    for (let i = 2; i <= totalPages; i++) {
+                        addPageNumber(i);
+                    }
+                } else {
+                    // 如果总页数大于5，显示省略号
+                    if (currentPage > 3) {
+                        addDots();
+                    }
+
+                    // 显示当前页附近的页码
+                    for (let i = Math.max(2, currentPage - 1); i <= Math.min(currentPage + 1, totalPages - 1); i++) {
+                        addPageNumber(i);
+                    }
+
+                    if (currentPage < totalPages - 2) {
+                        addDots();
+                    }
+
+                    // 始终显示最后一页
+                    if (totalPages > 1) {
+                        addPageNumber(totalPages);
+                    }
+                }
+            }
+
+            // 控制上一页/下一页按钮的显示和状态
+            document.getElementById('prevPage').classList.toggle('disabled', currentPage === 1);
+            document.getElementById('nextPage').classList.toggle('disabled', currentPage === totalPages);
+            
+            // 如果只有一页，隐藏整个分页控件
+            document.querySelector('.pagination').style.display = totalPages > 1 ? 'flex' : 'none';
+
+            function addPageNumber(pageNum) {
+                const pageItem = document.createElement('div');
+                pageItem.className = `page-item${currentPage === pageNum ? ' active' : ''}`;
+                pageItem.textContent = pageNum;
+                pageItem.addEventListener('click', () => {
+                    currentPage = pageNum;
+                    filterAndSortProducts();
+                });
+                pageNumbers.appendChild(pageItem);
+            }
+
+            function addDots() {
+                const dots = document.createElement('div');
+                dots.className = 'page-dots';
+                dots.textContent = '...';
+                pageNumbers.appendChild(dots);
+            }
+        }
+
+        // 在 DOMContentLoaded 事件中初始化所有功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取必要的 DOM 元素
+            const filterOptions = document.querySelectorAll('.filter-option');
+            const sortButtons = document.querySelectorAll('.sort-btn');
+            const searchInput = document.getElementById('searchInput');
+            const searchBtn = document.getElementById('searchBtn');
+            const productsGrid = document.querySelector('.products-grid');
+
+            // 初始化显示所有商品
+            filterAndSortProducts();
+
+            // 分类点击事件
+            filterOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    filterOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    currentCategory = this.getAttribute('data-category');
+                    filterAndSortProducts();
+                });
+            });
+
+            // 排序点击事件
+            sortButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sortButtons.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    currentSort = this.getAttribute('data-sort');
+                    filterAndSortProducts();
+                });
+            });
+
+            // 搜索功能
+            searchBtn.addEventListener('click', handleSearch);
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSearch();
+                }
+            });
+
+            function handleSearch() {
+                searchTerm = searchInput.value.trim();
+                filterAndSortProducts();
+            }
+
+            // 分页点击事件
+            document.querySelectorAll('.page-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    if (this.id === 'prevPage' && currentPage > 1) {
+                        currentPage--;
+                    } else if (this.id === 'nextPage' && currentPage < Math.ceil(products.length / itemsPerPage)) {
+                        currentPage++;
+                    } else if (this.dataset.page) {
+                        currentPage = parseInt(this.dataset.page);
+                    }
+                    filterAndSortProducts();
+                });
+            });
+        });
+
+        // 筛选和排序函数
+        function filterAndSortProducts() {
+            let filteredProducts = [...products];
+
+            // 分类筛选
+            if (currentCategory !== 'all') {
+                filteredProducts = filteredProducts.filter(p => p.category === currentCategory);
+            }
+
+            // 搜索筛选
+            if (searchTerm) {
+                const searchLower = searchTerm.toLowerCase();
+                filteredProducts = filteredProducts.filter(p => 
+                    p.name.toLowerCase().includes(searchLower) ||
+                    p.desc.toLowerCase().includes(searchLower) ||
+                    p.category.toLowerCase().includes(searchLower) ||
+                    p.price.toString().includes(searchLower)
+                );
+            }
+
+            // 排序
+            switch (currentSort) {
+                case 'price-asc':
+                    filteredProducts.sort((a, b) => a.price - b.price);
+                    break;
+                case 'price-desc':
+                    filteredProducts.sort((a, b) => b.price - a.price);
+                    break;
+                default:
+                    filteredProducts.sort((a, b) => a.id - b.id);
+            }
+
+            // 确保当前页码有效
+            const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
+            if (currentPage > totalPages) {
+                currentPage = totalPages || 1;
+            }
+
+            // 分页
+            const paginatedProducts = paginate(filteredProducts, currentPage, itemsPerPage);
+
+            // 渲染结果
+            const productsGrid = document.querySelector('.products-grid');
+            if (filteredProducts.length === 0) {
+                productsGrid.innerHTML = '<div class="no-results">没有找到相关商品</div>';
+            } else {
+                productsGrid.innerHTML = paginatedProducts.map(renderProduct).join('');
+            }
+
+            // 更新商品数量显示和分页
+            updateProductCount(filteredProducts.length);
+            updatePagination(filteredProducts);
+        }
+
+        // 添加商品数量显示
+        function updateProductCount(count) {
+            let countElement = document.querySelector('.product-count');
+            if (!countElement) {
+                countElement = document.createElement('div');
+                countElement.className = 'product-count';
+                document.querySelector('.filter-section').appendChild(countElement);
+            }
+            countElement.textContent = `共找到 ${count} 个商品`;
+        }
+
+        // 渲染单个商品卡片
+        function renderProduct(product) {
+            return `
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="${product.image}" alt="${product.name}">
+                        <span class="product-badge">${product.badge}</span>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-title">${product.name}</h3>
+                        <p class="product-desc">${product.desc}</p>
+                        <div class="product-meta">
+                            <span class="product-price">¥${product.price}.00</span>
+                            <span class="product-rating">★★★★★</span>
+                        </div>
+                        <div class="product-actions">
+                            <button class="btn btn-secondary add-to-cart" data-id="${product.id}">加入购物车</button>
+                            <button class="btn btn-primary buy-now" data-id="${product.id}">立即购买</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // 登录功能
+        const loginBtn = document.getElementById('loginBtn');
+        const loginModal = document.getElementById('loginModal');
+        const closeBtn = document.querySelector('.close');
+        const loginForm = document.getElementById('loginForm');
+        const userAvatar = document.querySelector('.user-avatar');
+
+        loginBtn.onclick = function() {
+            loginModal.style.display = "block";
+        }
+
+  
+        window.onclick = function(event) {
+            if (event.target == loginModal) {
+                loginModal.style.display = "none";
+            }
+        }
+
+        loginForm.onsubmit = function(e) {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            loginBtn.style.display = "none";
+            loginModal.style.display = "none";
+            userAvatar.src = "image/已登录.png";
+
+            alert(`欢迎回来，${username}！`);
+        }
+
+      
+    </script>
+</body>
+</html>
